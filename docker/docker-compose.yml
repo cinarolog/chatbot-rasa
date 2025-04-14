@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  rasa:
+    build: ../rasa_backend
+    ports:
+      - "5005:5005"
+    volumes:
+      - ../rasa_backend:/app
+      - ../rasa_backend/models:/app/models
+
+  frontend:
+    image: httpd:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ../web_ui:/usr/local/apache2/htdocs/
+
+      
