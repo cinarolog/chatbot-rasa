@@ -1,67 +1,130 @@
-RASA Projesi Hızlı Başlangıç Dokümanı
-1. Klasör Yapısı
-project/
-│
-├── data/
-│   └── nlu.yml
-├── domain.yml
-├── config.yml
-├── rules.yml
-├── stories.yml
-├── actions/
-│   └── __init__.py
-├── models/
-├── credentials.yml
-├── endpoints.yml
-├── docker/
-│   └── docker-compose.yml
-│   └── Dockerfile
-└── web_ui/
-    └── (statik web arayüzü dosyaları)
-2. Sanal Ortam Kurulumu
+Harika bir başlangıç yapmışsın Çınar! Aşağıda, yazdığın README içeriğini daha profesyonel ve okunabilir hale getirilmiş bir versiyonuyla paylaşıyorum. Markdown biçimine uygun başlıklar, kod blokları, açıklamalar ve bağlantılar eklendi:
+
+markdown
+Kopyala
+Düzenle
+# 🤖 RASA Chatbot Projesi
+
+Bu repo, [Rasa](https://rasa.com/) ile geliştirilmiş bir chatbot projesinin Docker destekli çalışmasını ve basit bir web arayüzü ile entegrasyonunu içerir.
+
+## 📁 Proje Klasör Yapısı
+
+chatbot-rasa/ │ ├── data/ # NLU eğitim verileri │ └── nlu.yml ├── domain.yml # Bot'un domain tanımı ├── config.yml # Pipeline ve policy konfigürasyonu ├── rules.yml # Kural tabanlı diyaloglar ├── stories.yml # Eğitim hikayeleri │ ├── actions/ # Custom action'lar │ └── init.py │ ├── models/ # Eğitilmiş modellerin kaydedildiği klasör ├── credentials.yml # Kanal konfigürasyonları ├── endpoints.yml # Action server ayarları │ ├── docker/ # Docker konfigürasyonları │ ├── docker-compose.yml │ └── Dockerfile │ ├── templates/ # Web arayüz şablonları ├── web_ui/ # Statik web dosyaları │ ├── .gitignore ├── .gitattributes └── README.md
+
+yaml
+Kopyala
+Düzenle
+
+---
+
+## ⚙️ Sanal Ortam Kurulumu
+
+```bash
+# Windows
 python -m venv venv
-venv\Scripts\activate  # Windows
-# veya
-source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate
 
+# Linux/macOS
+python3 -m venv venv
+source venv/bin/activate
+
+# Rasa kurulumu
 pip install rasa
-3. Model Eğitimi
+🧠 Model Eğitimi
+bash
+Kopyala
+Düzenle
 rasa train
-# Eğitilen model models/ klasörüne kaydedilir.
-4. Lokal Test
-A. NLU Test:
+Eğitim tamamlandıktan sonra model models/ klasörüne kaydedilir.
+
+🧪 Lokal Test
+A. Sadece NLU:
+bash
+Kopyala
+Düzenle
 rasa shell nlu
-
 B. Tam Konuşma:
+bash
+Kopyala
+Düzenle
 rasa shell
-
 C. Action Server ile:
-rasa run actions  # başka terminalde
-rasa shell
-5. Webhook Testi
-rasa run --enable-api --cors "*" --debug
+bash
+Kopyala
+Düzenle
+# Bir terminalde:
+rasa run actions
 
-Test:
+# Diğer terminalde:
+rasa shell
+🌐 Webhook Testi
+bash
+Kopyala
+Düzenle
+rasa run --enable-api --cors "*" --debug
+Test için örnek cURL komutu:
+bash
+Kopyala
+Düzenle
 curl -X POST http://localhost:5005/webhooks/rest/webhook \
 -H "Content-Type: application/json" \
 -d '{"sender": "test_user", "message": "Merhaba"}'
-6. Docker Dosyaları
-docker/docker-compose.yml:
-[... docker-compose içeriği ...]
+🐳 Docker ile Çalıştırma
+1. Docker Dosyaları
+docker/Dockerfile
 
-docker/Dockerfile:
+dockerfile
+Kopyala
+Düzenle
 FROM rasa/rasa:3.6.2
+
 USER root
 RUN mkdir -p /app/models
 WORKDIR /app
-7. Docker ile Çalıştırma
+docker/docker-compose.yml
+
+yaml
+Kopyala
+Düzenle
+version: "3.9"
+services:
+  rasa:
+    build: .
+    ports:
+      - "5005:5005"
+    volumes:
+      - ../:/app
+    command: rasa run --enable-api --cors "*"
+
+  action_server:
+    image: rasa/rasa-sdk:3.6.2
+    ports:
+      - "5055:5055"
+    volumes:
+      - ../actions:/app/actions
+
+  web_ui:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ../web_ui:/usr/share/nginx/html
+2. Başlatma
+bash
+Kopyala
+Düzenle
 cd docker
 docker compose up --build
+🔗 Erişim Noktaları
+Chatbot REST API: http://localhost:5005
 
-Sonuç:
-- Chatbot REST API: http://localhost:5005
-- Action server: http://localhost:5055
-- Web arayüzü: http://localhost:8080
+Action Server: http://localhost:5055
 
-Not: Permission hatası için:
+Web Arayüzü: http://localhost:8080
+
+Not: Eğer models/ klasöründe izin hatası alırsanız:
+
+bash
+Kopyala
+Düzenle
 sudo chmod -R 777 models/
