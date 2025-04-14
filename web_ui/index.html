@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ISO 50001 Chatbot</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 2rem; }
+    .chatbox { border: 1px solid #ccc; padding: 1rem; height: 300px; overflow-y: scroll; margin-bottom: 1rem; }
+    .message { margin-bottom: 1rem; }
+    .user { color: blue; }
+    .bot { color: green; }
+  </style>
+</head>
+<body>
+  <h2>ISO 50001 Chatbot</h2>
+  <div class="chatbox" id="chatbox"></div>
+  <input type="text" id="userInput" placeholder="Mesajınızı yazın..." style="width: 80%;">
+  <button onclick="sendMessage()">Gönder</button>
+
+  <script>
+    async function sendMessage() {
+      const userInput = document.getElementById("userInput");
+      const chatbox = document.getElementById("chatbox");
+      const message = userInput.value;
+
+      // Kullanıcının mesajını göster
+      chatbox.innerHTML += `<div class="message user"><strong>Sen:</strong> ${message}</div>`;
+      userInput.value = "";
+
+      // Rasa REST API’ye mesaj gönder
+      const response = await fetch("http://localhost:5005/webhooks/rest/webhook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sender: "user", message: message })
+      });
+
+      const data = await response.json();
+
+      // Bot mesajlarını göster
+      data.forEach((res) => {
+        chatbox.innerHTML += `<div class="message bot"><strong>Bot:</strong> ${res.text}</div>`;
+      });
+
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+  </script>
+</body>
+</html>

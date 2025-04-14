@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Uygulamasına Hoş Geldiniz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            color: #0066cc;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .block {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2em;
+        }
+        .block.blue { background-color: #3498db; }
+        .block.green { background-color: #2ecc71; }
+        .block.orange { background-color: #e67e22; }
+        
+        /* Sağ ve sol tarafa görsel ve bilgi ekleme */
+        .info-box {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            text-align: center;
+        }
+        .info-box img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .info-box p {
+            font-size: 0.9em;
+            margin-top: 5px;
+            color: #555;
+        }
+        .left-info {
+            left: -150px;
+        }
+        .right-info {
+            right: -150px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Flask Uygulamasına Hoş Geldiniz</h1>
+    <p>Flask, Python ile web uygulamaları geliştirmek için kullanılan, hafif ve esnek bir framework'tür.</p>
+
+    <div class="block blue">
+        Flask, hızlıca prototipler geliştirmek ve esnek uygulamalar yapmak için idealdir.
+    </div>
+
+    <div class="block green">
+        Flask ile, ihtiyaca göre yeni modüller eklenebilir veya daha sade uygulamalar tasarlanabilir.
+    </div>
+
+    <div class="block orange">
+        Flask, öğrenmesi kolay olduğu için yeni başlayanlar ve uzmanlar için uygundur.
+    </div>
+
+    <!-- Sol tarafa Data Science görseli ve açıklama -->
+    <div class="info-box left-info">
+        <img src="data_science_image.jpg" alt="Data Science Görseli">
+        <p>Data Science, veriyi analiz ederek değerli bilgiler elde etmeyi amaçlar.</p>
+    </div>
+
+    <!-- Sağ tarafa Yapay Zeka görseli ve açıklama -->
+    <div class="info-box right-info">
+        <img src="ai_image.jpg" alt="Yapay Zeka Görseli">
+        <p>Yapay Zeka, insan benzeri düşünme ve öğrenme yeteneklerini geliştirir.</p>
+    </div>
+</div>
+
+</body>
+</html>
